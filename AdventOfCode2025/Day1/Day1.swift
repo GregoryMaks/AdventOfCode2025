@@ -1,7 +1,9 @@
 
 // https://adventofcode.com/2025/day/1
 
-class Day1 {
+final class Day1: Day {
+    
+    let index = 1
     
     let testSet1: [String] = {[
         "L68",
@@ -27,7 +29,7 @@ class Day1 {
     
     // Count times we stop at 0
     func runPart1() {
-        let codes = readInput()
+        let codes = readInput(index)
         
         var r = 0
         var pos: Int = 50
@@ -45,7 +47,7 @@ class Day1 {
     
     // Count times we stop and pass 0
     func runPart2() {
-        let codes = readInput()//testSet
+        let codes = readInput(index)//testSet
         
         var r = 0
         var pos: Int = 50
@@ -75,17 +77,5 @@ class Day1 {
             print(debug)
         }
         print(r)
-    }
-}
-
-private extension Day1 {
-    
-    func readInput() -> [String] {
-        do {
-            return try FileService.readFileAsStrings(at: "input1.txt")
-        } catch {
-            print("Error reading file: \(error)")
-        }
-        return []
     }
 }

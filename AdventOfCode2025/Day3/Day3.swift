@@ -2,7 +2,9 @@ import Foundation
 
 // https://adventofcode.com/2025/day/3
 
-class Day3 {
+final class Day3: Day {
+    
+    let index = 3
     
     let num0: Int8 = 48
     
@@ -18,7 +20,7 @@ class Day3 {
     }
     
     func runPart1() {
-        let rows = readInput()
+        let rows = readInput(index)
         var sum: Int = 0
         for row in rows {
             let row = numToArray(row)
@@ -45,7 +47,7 @@ class Day3 {
     }
 
     func runPart2() {
-        let rows = readInput()
+        let rows = readInput(index)
         var result: [Int] = []
         for row in rows {
             let row = numToArray(row)
@@ -97,17 +99,5 @@ class Day3 {
             result.insert(carryover, at: 0)
         }
         return result
-    }
-}
-
-private extension Day3 {
-    
-    func readInput() -> [String] {
-        do {
-            return try FileService.readFileAsStrings(at: "input3.txt")
-        } catch {
-            print("Error reading file: \(error)")
-        }
-        return []
     }
 }

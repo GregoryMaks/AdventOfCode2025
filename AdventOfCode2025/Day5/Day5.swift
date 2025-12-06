@@ -2,7 +2,9 @@ import Foundation
 
 // https://adventofcode.com/2025/day/4
 
-class Day5 {
+final class Day5: Day {
+    
+    let index = 5
     
     let testSet: [String] = {[
         "3-5",
@@ -23,7 +25,7 @@ class Day5 {
     }
     
     func runPart1() {
-        let rows = readInput()
+        let rows = readInput(index)
         var ranges: [[UInt64]] = []
         var items: [UInt64] = []
         rows.forEach { row in
@@ -49,7 +51,7 @@ class Day5 {
             var s: UInt64
             var e: UInt64
         }
-        let rows = readInput()
+        let rows = readInput(index)
         var ranges: [Range] = []
         rows.forEach { row in
             let parts = row.split(separator: "-")
@@ -78,17 +80,5 @@ class Day5 {
         }
         
         print(counter)
-    }
-}
-
-private extension Day5 {
-    
-    func readInput() -> [String] {
-        do {
-            return try FileService.readFileAsStrings(at: "input5.txt")
-        } catch {
-            print("Error reading file: \(error)")
-        }
-        return []
     }
 }

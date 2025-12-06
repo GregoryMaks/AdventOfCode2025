@@ -2,7 +2,9 @@ import Foundation
 
 // https://adventofcode.com/2025/day/4
 
-class Day4 {
+final class Day4: Day {
+    
+    let index = 4
     
     let testSet: [String] = {[
         "..@@.@@@@.",
@@ -22,7 +24,7 @@ class Day4 {
     }
     
     func runPart1() {
-        let rows = readInput()
+        let rows = readInput(index)
             .map(stringToArray)
         var accum = 0
         
@@ -51,7 +53,7 @@ class Day4 {
     }
 
     func runPart2() {
-        var rows = readInput()
+        var rows = readInput(index)
             .map(stringToArray)
         var modifiedRows = rows
         
@@ -97,17 +99,5 @@ class Day4 {
     
     private func stringToArray(_ string: String) -> [Int] {
         return string.utf8CString.dropLast().map { $0 == Character("@").asciiValue! ? 1 : 0 }
-    }
-}
-
-private extension Day4 {
-    
-    func readInput() -> [String] {
-        do {
-            return try FileService.readFileAsStrings(at: "input4.txt")
-        } catch {
-            print("Error reading file: \(error)")
-        }
-        return []
     }
 }

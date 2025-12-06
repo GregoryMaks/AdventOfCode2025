@@ -2,7 +2,9 @@ import Foundation
 
 // https://adventofcode.com/2025/day/2
 
-class Day2 {
+final class Day2: Day {
+    
+    let index = 2
     
     let testSet1: String = { "11-22,95-115,998-1012,1188511880-1188511890,222220-222224,1698522-1698528,446443-446449,38593856-38593862,565653-565659,824824821-824824827,2121212118-2121212124" }()
     
@@ -14,7 +16,7 @@ class Day2 {
     
     // Brute force FTW
     func runPart1() {
-        let rows = readInput()
+        let rows = readInput(index)
         assert(rows.count == 1)
         let row = rows[0]
         var count = 0
@@ -38,7 +40,7 @@ class Day2 {
     }
 
     func runPart2() {
-        let rows = readInput()
+        let rows = readInput(index)
         assert(rows.count == 1)
         let row = rows[0]
         var count = 0
@@ -106,17 +108,5 @@ class Day2 {
     
     private func numToArray(_ number: String) -> [Int] {
         return number.utf8CString.dropLast().map { Int($0-48) }
-    }
-}
-
-private extension Day2 {
-    
-    func readInput() -> [String] {
-        do {
-            return try FileService.readFileAsStrings(at: "input2.txt")
-        } catch {
-            print("Error reading file: \(error)")
-        }
-        return []
     }
 }
