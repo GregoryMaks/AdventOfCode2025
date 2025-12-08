@@ -279,57 +279,76 @@ class Day8: Day {
         // Sort by closest ones
         pairs.sort(by: { $0.dist < $1.dist })
         
-        // Start connecting pair to chains of sockets
-        var groups = Set<Group>()
-        var nodeToGroup = Dictionary<Int, Group>() // Node: Group
+        print("Time 2: \(Date().timeIntervalSince(startTime))")
         
-        // Prefill with single groups containing only one node
-        for i in 0..<sockets.count {
-            let group = Group(index: i)
-            group.nodes.append(i)
-            nodeToGroup[i] = group
-            groups.insert(group)
+        // Start connecting pair to chains of sockets
+        var jointSet: [Int] = .init(repeating: 0, count: sockets.count)
+        
+        for i in 0..<jointSet.count {
+            jointSet[i] = i
         }
         
-        // We go for each pair, merging them in groups
+        // DisjointSet with Quick Find
         var counter = 0
+        var uniqueGroups = sockets.count
         for pair in pairs {
-            let groupForA = nodeToGroup[pair.a]
-            let groupForB = nodeToGroup[pair.b]
-            if groupForA != nil && groupForB != nil {
-                if groupForA != groupForB { // merge groups, removing B
-                    groupForB!.nodes.forEach { nodeToGroup[$0] = groupForA }
-                    groupForA?.nodes.append(contentsOf: groupForB!.nodes)
-                    groups.remove(groupForB!)
-                    
-                    if groups.count == 1 {
-                        print("Final group merged, counter: \(counter)")
-                        print("Nodes: \(sockets[pair.a]) and \(sockets[pair.b])")
-                        print("Answer: \(sockets[pair.a][0] * sockets[pair.b][0])")
-                        print("Time: \(Date().timeIntervalSince(startTime))")
-                        break
-                    }
-                } else {
-                    // do nothing, connected nodes in same group
+            let aRoot = jointSet[pair.a]
+            let bRoot = jointSet[pair.b]
+            if aRoot != bRoot {
+                for i in 0..<jointSet.count {
+                    if jointSet[i] == bRoot { jointSet[i] = aRoot }
+                }
+                uniqueGroups -= 1
+                if uniqueGroups == 1 {
+                    print("Final group merged, counter: \(counter)")
+                    print("Nodes: \(sockets[pair.a]) and \(sockets[pair.b])")
+                    print("Answer: \(sockets[pair.a][0] * sockets[pair.b][0])")
+                    print("Time: \(Date().timeIntervalSince(startTime))")
                 }
             }
-            else if let groupForA {
-                nodeToGroup[pair.b] = groupForA
-                groupForA.nodes.append(pair.b)
-            } else if let groupForB {
-                nodeToGroup[pair.a] = groupForB
-                groupForB.nodes.append(pair.a)
-            } else {
-                assertionFailure()
-            }
-            
             counter += 1
         }
+        
+        // Faster alternative, but longer
+        
+        // Start connecting pair to chains of sockets
+//        var groups = Set<Group>()
+//        var nodeToGroup: [Group] = [] // Node: Group
+//        
+//        // Prefill with single groups containing only one node
+//        for i in 0..<sockets.count {
+//            var group = Group(index: i)
+//            group.nodes.append(i)
+//            groups.insert(group)
+//            nodeToGroup.append(group)
+//        }
+//        
+//        // We go for each pair, merging them in groups
+//        var counter = 0
+//        for pair in pairs {
+//            let groupForA = nodeToGroup[pair.a]
+//            let groupForB = nodeToGroup[pair.b]
+//            if groupForA.index != groupForB.index {
+//                groupForB.nodes.forEach { nodeToGroup[$0] = groupForA }
+//                groupForA.nodes.append(contentsOf: groupForB.nodes)
+//                groups.remove(groupForB)
+//                
+//                if groups.count == 1 {
+//                    print("Final group merged, counter: \(counter)")
+//                    print("Nodes: \(sockets[pair.a]) and \(sockets[pair.b])")
+//                    print("Answer: \(sockets[pair.a][0] * sockets[pair.b][0])")
+//                    print("Time: \(Date().timeIntervalSince(startTime))")
+//                    break
+//                }
+//            }
+//            
+//            counter += 1
+//        }
     }
 }
 
 class Group: Hashable {
-    let index: Int
+    var index: Int
     var nodes: [Int] = []
     init(index: Int) { self.index = index }
     func hash(into hasher: inout Hasher) { hasher.combine(index) }
