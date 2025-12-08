@@ -34,6 +34,7 @@
 				Day5/input5.txt,
 				Day6/input6.txt,
 				Day7/input7.txt,
+				Day8/input8.txt,
 			);
 		};
 /* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */

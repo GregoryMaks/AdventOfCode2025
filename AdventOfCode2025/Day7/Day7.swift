@@ -93,13 +93,4 @@ class Day7: Day {
     private func stringToManifoldsMap(_ string: String) -> [Int] {
         return string.utf8CString.dropLast().map { $0 == Character("^").asciiValue! ? 1 : 0 }
     }
-    
-    private func readRawInput(_ index: Int) -> [String] {
-        do {
-            return try FileService.readFileAsStrings(at: "input\(index).txt", trim: false)
-        } catch {
-            print("Error reading file: \(error)")
-        }
-        return []
-    }
 }
