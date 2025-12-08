@@ -30,229 +30,68 @@ class Day8: Day {
     ]}()
     
     func run() {
-//        print(Int.max)
-//        print(99999*99999*99999)
-        part2()
+        part1()
     }
-        
-//    func part1_1() {
-//        let rows = readInput(index)
-//        var sockets: [[Int]] = []
-//        for row in rows {
-//            sockets.append(row.split(separator: ",").map { Int($0)! })
-//        }
-//        
-//        var pairRoot: Pair? = nil
-//        
-////        var step = 0
-////        var dis: [[Double]] = .init(repeating: .init(repeating: -1, count: sockets.count), count: sockets.count)
-//        for i in 0..<sockets.count {
-//            for j in i+1..<sockets.count {
-//                let dx = sockets[i][0] - sockets[j][0]
-//                let dy = sockets[i][1] - sockets[j][1]
-//                let dz = sockets[i][2] - sockets[j][2]
-//                let pair = Pair(
-//                    a: i,
-//                    b: j,
-//                    dist: sqrt(Double(dx*dx + dy*dy + dz*dz))
-//                )
-//                
-//                // Add to list in ordered fashion
-//                if pairRoot == nil { pairRoot = pair }
-//                else {
-//                    var parent: Pair? = nil
-//                    var cur = pairRoot
-//                    while true {
-//                        if cur == nil { // add to tail
-//                            parent?.next = pair
-//                            break
-//                        }
-//                        
-//                        if pair.dist < cur!.dist {
-//                            if parent == nil { pairRoot = pair }
-//                            else { parent?.next = pair }
-//                            pair.next = cur
-//                            break
-//                        } else {
-//                            parent = cur
-//                            cur = cur!.next
-//                        }
-//                    }
-//                }
-//                
-////                print(">> Step: \(step)")
-////                step += 1
-////                var cur = pairRoot
-////                while cur != nil {
-////                    print(cur!)
-////                    cur = cur?.next
-////                }
-//            }
-//        }
-//                
-////        var cur = pairRoot
-////        while cur != nil {
-////            print(cur!)
-////            cur = cur?.next
-////        }
-//        
-//        // Start connecting to chains
-//        // Each group has root
-//        
-//        var no: Int = 0
-//        var groups = Dictionary<Int, Int>() // SocketIdx-Group
-//        var sizes: [Int] = []
-//        
-//        var cur = pairRoot
-//        var limit = 1000//10
-//        while cur != nil, limit > 0 {
-//            let existing: Int? = groups[cur!.a] ?? groups[cur!.b] ?? nil
-//            if let existing {
-//                groups[cur!.a] = existing
-//                groups[cur!.b] = existing
-//                sizes[existing] += 1
-////                print("Connecting \(testSet[cur!.a]) with \(testSet[cur!.b]) to group \(existing)")
-//            } else {
-//                groups[cur!.a] = no
-//                groups[cur!.b] = no
-//                sizes.append(2)
-////                print("Connecting \(testSet[cur!.a]) with \(testSet[cur!.b]) to group \(no)")
-//                no += 1
-//            }
-//            
-//            cur = cur?.next
-//            limit -= 1
-//        }
-//        
-//        print(sizes)
-//        
-//    }
     
-//    func part1_2() {
-//        let rows = readInput(index)
-//        var sockets: [[Int]] = []
-//        for row in rows {
-//            sockets.append(row.split(separator: ",").map { Int($0)! })
-//        }
-//        
-//        var pairRoot: Pair? = nil
-//        
-//        var maxDistance: Double = 0
-//        var addedCount = 0
-//        
-//        for i in 0..<sockets.count {
-//            for j in i+1..<sockets.count {
-//                let dx = sockets[i][0] - sockets[j][0]
-//                let dy = sockets[i][1] - sockets[j][1]
-//                let dz = sockets[i][2] - sockets[j][2]
-//                let dist = sqrt(Double(dx*dx + dy*dy + dz*dz))
-//                
-//                if dist > 10000 { continue } // test showed 8010 as max for 1000 pairs
-//                
-//                // Speeding up
-//                if dist >= maxDistance && addedCount >= 1000 {
-//                    print("Drop with distance: \(dist), maxDistance: \(maxDistance), addedCount: \(addedCount)")
-//                    continue
-//                }
-//                
-//                let pair = Pair(a: i, b: j, dist: dist)
-//                
-//                // Add to list in ordered fashion
-//                if pairRoot == nil { pairRoot = pair }
-//                else {
-//                    var parent: Pair? = nil
-//                    var cur = pairRoot
-//                    var curIdx = 0  // need to track list limit
-//                    while true {
-//                        if cur == nil { // add to tail
-//                            parent?.next = pair
-//                            
-//                            maxDistance = max(maxDistance, pair.dist)
-//                            addedCount += 1
-//                            print("Added with distance: \(dist), maxDistance: \(maxDistance), addedCount: \(addedCount)")
-//                            break
-//                        }
-//                        
-//                        if curIdx > 1000 {
-//                            maxDistance = cur!.dist
-//                            cur?.next = nil
-//                            addedCount = curIdx+1
-//                            print("!! Dropping distance: \(dist), dropping tail as idx > 1000")
-//                            break
-//                        }
-//                        
-//                        if pair.dist < cur!.dist {
-//                            if parent == nil { pairRoot = pair }
-//                            else { parent?.next = pair }
-//                            pair.next = cur
-//                            
-//                            maxDistance = max(maxDistance, pair.dist)
-//                            addedCount += 1
-//                            print("Added with distance: \(dist), maxDistance: \(maxDistance), addedCount: \(addedCount)")
-//                            break
-//                        } else {
-//                            parent = cur
-//                            cur = cur!.next
-//                        }
-//                        
-//                        curIdx += 1
-//                    }
-//                }
-//            }
-//        }
-//        
-//        print("Finished | maxDistance: \(maxDistance), addedCount: \(addedCount)")
-//        
-//        // Start connecting to chains
-//        // Each group has root
-//        
-//        var no: Int = 0
-//        var groups = Dictionary<Int, Int>() // SocketIdx-GroupIdx
-//        var sizes = Dictionary<Int, Int>() // GroupIdx-Size
-//        
-//        var cur = pairRoot
-//        var limit = 1000//10
-//        while cur != nil, limit > 0 {
-//            let existingA: Int? = groups[cur!.a]
-//            let existingB: Int? = groups[cur!.b]
-//            if existingA != nil && existingB != nil {
-//                if existingA != existingB { // merge groups
-//                    sizes[existingA!]! += sizes[existingB!]!
-//                    sizes[existingB!] = 0
-//                    var newGroups = groups  // marking all nodes in group B as belonging to group A
-//                    groups.forEach { key, value in
-//                        if value == existingB {
-//                            newGroups[key] = existingA
-//                        }
-//                    }
-//                    groups = newGroups
-//                } else { // do nothing as we just closed the circuit
-//                }
-//            }
-//            else if existingA != nil {
-//                groups[cur!.b] = existingA!
-//                sizes[existingA!] = (sizes[existingA!] ?? 0) + 1
-//                //                print("Connecting \(testSet[cur!.a]) with \(testSet[cur!.b]) to group \(existing)")
-//            } else if existingB != nil {
-//                groups[cur!.a] = existingB!
-//                sizes[existingB!] = (sizes[existingB!] ?? 0) + 1
-//                //                print("Connecting \(testSet[cur!.a]) with \(testSet[cur!.b]) to group \(existing)")
-//            } else {
-//                groups[cur!.a] = no
-//                groups[cur!.b] = no
-//                sizes[no] = 2
-//                //                print("Connecting \(testSet[cur!.a]) with \(testSet[cur!.b]) to group \(no)")
-//                no += 1
-//            }
-//            
-//            cur = cur?.next
-//            limit -= 1
-//        }
-//        
-//        let result = sizes.values.sorted()
-//        print(result)
-//        print(result.suffix(3).reduce(1, *))
-//    }
+    func part1() {
+        let startTime = Date()
+        
+        let rows = readInput(index)
+        var sockets: [[Int]] = []
+        for row in rows {
+            sockets.append(row.split(separator: ",").map { Int($0)! })
+        }
+        
+        var pairs: [Pair] = []
+        
+        for i in 0..<sockets.count {
+            for j in i+1..<sockets.count {
+                let dx = sockets[i][0] - sockets[j][0]
+                let dy = sockets[i][1] - sockets[j][1]
+                let dz = sockets[i][2] - sockets[j][2]
+                let pair = Pair(a: i, b: j, dist: dx*dx + dy*dy + dz*dz)
+                pairs.append(pair)
+            }
+        }
+        print("Time 1: \(Date().timeIntervalSince(startTime))")
+        
+        // Sort by closest ones (optimize: min-heap with limit of 1000 items)
+        pairs.sort(by: { $0.dist < $1.dist })
+        
+        print("Time 2: \(Date().timeIntervalSince(startTime))")
+        
+        // Start connecting pair to chains of sockets
+        var jointSet: [Int] = .init(repeating: 0, count: sockets.count)
+        
+        for i in 0..<jointSet.count {
+            jointSet[i] = i
+        }
+        
+        // DisjointSet with Quick Find
+        var counter = 0
+        for pair in pairs {
+            let aRoot = jointSet[pair.a]
+            let bRoot = jointSet[pair.b]
+            if aRoot != bRoot {
+                for i in 0..<jointSet.count {
+                    if jointSet[i] == bRoot { jointSet[i] = aRoot }
+                }
+            }
+            counter += 1
+            if counter >= 1000 { break }
+        }
+        
+        var groupSizes: [Int] = .init(repeating: 0, count: sockets.count)
+        for i in 0..<jointSet.count {
+            groupSizes[jointSet[i]] += 1
+        }
+        
+        let result = groupSizes.sorted()
+        print(result)
+        print(result.suffix(3).reduce(1, *))
+        
+        print("Time: \(Date().timeIntervalSince(startTime))")
+    }
     
     func part2() {
         let startTime = Date()
@@ -276,7 +115,7 @@ class Day8: Day {
         }
         print("Time 1: \(Date().timeIntervalSince(startTime))")
         
-        // Sort by closest ones
+        // Sort by closest ones (optimize: min-heap)
         pairs.sort(by: { $0.dist < $1.dist })
         
         print("Time 2: \(Date().timeIntervalSince(startTime))")
@@ -345,14 +184,6 @@ class Day8: Day {
 //            counter += 1
 //        }
     }
-}
-
-class Group: Hashable {
-    var index: Int
-    var nodes: [Int] = []
-    init(index: Int) { self.index = index }
-    func hash(into hasher: inout Hasher) { hasher.combine(index) }
-    static func == (lhs: Group, rhs: Group) -> Bool { lhs.index == rhs.index }
 }
 
 class Pair: CustomStringConvertible, Hashable {
