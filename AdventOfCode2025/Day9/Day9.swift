@@ -5,7 +5,6 @@ import Foundation
 class Day9: Day {
     
     let index = 9
-    let size = 100000
     
     let testSet: [String] = {[
         "7,1",
@@ -19,10 +18,9 @@ class Day9: Day {
     ]}()
     
     func run() {
-        part2()
+        part1()
     }
     
-    /// 500 points, 100000 space
     func part1() {
         let startTime = Date()
         
@@ -32,7 +30,7 @@ class Day9: Day {
         var maxSquare = 0
         for pt1 in pts {
             for pt2 in pts {
-                maxSquare = max(maxSquare, abs(pt1[0]-pt2[0]+1)*abs(pt1[1]-pt2[1]+1))
+                maxSquare = max(maxSquare, (abs(pt1[0]-pt2[0])+1)*(abs(pt1[1]-pt2[1])+1))
             }
         }
         
