@@ -47,6 +47,7 @@ class Day9: Day {
         print("Read points: \(Date().timeIntervalSince(startTime))")
         startTime = Date()
         
+        // Calculate all lines for the path
         var lines: [[(Int, Int)]] = []
         var prev = pts.last!
         for i in 0..<pts.count {
@@ -59,22 +60,7 @@ class Day9: Day {
         print("Lines ready: \(Date().timeIntervalSince(startTime))")
         startTime = Date()
         
-        func lineIntersectsRect(
-            x1: Int, y1: Int, x2: Int, y2: Int,
-            rx1: Int, ry1: Int, rx2: Int, ry2: Int
-        ) -> Bool {
-            let (rMinX, rMaxX, rMinY, rMaxY) = (min(rx1, rx2), max(rx1, rx2), min(ry1, ry2), max(ry1, ry2))
-            
-            if y1 == y2 {
-                return rMinY < y1 && y1 < rMaxY && min(x1, x2) < rMaxX && rMinX < max(x1, x2)
-            } else if x1 == x2 {
-                return rMinX < x1 && x1 < rMaxX && min(y1, y2) < rMaxY && rMinY < max(y1, y2)
-            }
-            
-            fatalError()
-        }
-        
-        // Longest lines are most probable to hit
+        // Longest lines are most probable to hit, shorting the time of calculation
         lines.sort { l, r in
             let llen = (l[0].0-l[1].0)*(l[0].0-l[1].0) + (l[0].1-l[1].1)*(l[0].1-l[1].1)
             let rlen = (r[0].0-r[1].0)*(r[0].0-r[1].0) + (r[0].1-r[1].1)*(r[0].1-r[1].1)
@@ -85,6 +71,17 @@ class Day9: Day {
         print("Lines sorted: \(Date().timeIntervalSince(startTime))")
         startTime = Date()
         
+        // Go through all possible rectangles
+        //
+        // Check if rectangle has any of the lines intersecting it, if yes - drop the rectangle
+        // Idea is that biggest rectangle should not be intersected with any line
+        // WHICH CAN BE FALSE in some scenarios, but not the test case
+        // For example: when two lines are intersecting, but closeby (x, x+1) and thus have red/green tiles in the rect which is ok
+        //
+        // Time complexity: 0(n^2) for checking all points, O(n^3) when for all points we check all lines.
+        // But should be less than that in real life.
+        // Space: O(2n) for storing lines
+        //
         var maxSquare = 0
         for pt1 in pts {
             for pt2 in pts {
@@ -113,5 +110,20 @@ class Day9: Day {
         
         print("MaxSquare: \(maxSquare)")
         print("Time: \(Date().timeIntervalSince(startTime))")
+    }
+    
+    private func lineIntersectsRect(
+        x1: Int, y1: Int, x2: Int, y2: Int,
+        rx1: Int, ry1: Int, rx2: Int, ry2: Int
+    ) -> Bool {
+        let (rMinX, rMaxX, rMinY, rMaxY) = (min(rx1, rx2), max(rx1, rx2), min(ry1, ry2), max(ry1, ry2))
+        
+        if y1 == y2 {
+            return rMinY < y1 && y1 < rMaxY && min(x1, x2) < rMaxX && rMinX < max(x1, x2)
+        } else if x1 == x2 {
+            return rMinX < x1 && x1 < rMaxX && min(y1, y2) < rMaxY && rMinY < max(y1, y2)
+        }
+        
+        fatalError()
     }
 }
